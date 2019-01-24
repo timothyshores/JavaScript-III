@@ -51,7 +51,6 @@ function CharacterStats(attributes) {
 */
 
 function Humanoid(attributes) {
-  // GameObject.call(this, attributes); 
   CharacterStats.call(this, attributes);
   this.team = attributes.healthPoints;
   this.weapons = attributes.weapons[0];
@@ -134,4 +133,60 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 // Stretch task: 
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+
+function Villain(attributes) {
+  Humanoid.call(this, attributes);
+  this.attack = function (opponent) {
+    let attack = Math.floor(Math.random() * this.sides) + 6;
+    opponent.healthPoints -= attack;
+    return `${this.name} attacked ${opponent.name} for ${attack} health points`;
+  };
+}
+
+function Hero(attributes) {
+  Humanoid.call(this, attributes);
+  this.attack = function (opponent) {
+    let attackDamage = Math.floor(Math.random() * 6) + 1;
+    opponent.healthPoints -= attackDamage;
+    return `${this.name} attacked ${opponent.name} for ${attackDamage} health points`;
+  };
+}
+
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+const badGuy = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 1,
+    height: 1,
+  },
+  healthPoints: 25,
+  name: 'Eye Patch Jonesy',
+  team: 'Evil Empire',
+  weapons: [
+    'Laser Eyes',
+  ],
+  language: 'Tough Guy Talk',
+});
+
+const goodGuy = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 1,
+    height: 1,
+  },
+  healthPoints: 25,
+  name: 'The Undefeated WWE Champion',
+  team: 'The Citizens Alliance',
+  weapons: [
+    'Fists of steel',
+  ],
+  language: 'Common Tongue',
+});
+
+console.log(badGuy.attack(goodGuy));
+console.log(goodGuy.healthPoints);
+console.log(goodGuy.attack(badGuy));
+console.log(goodGuy.healthPoints);
